@@ -26,8 +26,8 @@ const typeDefs = `
   }
 
   type Query {
-    allPizzas: [Pizza!]!
-    allToppings: [Topping!]!
+    allPizzas: [Pizza!]!,
+    allToppings: [Topping!]!,
     allMakers: [Maker!]!
   }
 

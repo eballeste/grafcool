@@ -1,19 +1,10 @@
-const links = [
-  {
-    id: 0,
-    url: 'http://graphql.org/',
-    description: 'i want to believe'
-  },
-  {
-    id: 1,
-    url: 'http://dev.apollodata.com',
-    description: 'let me see into that future'
-  }
-];
+import { Maker, Pizza, Topping } from './mysqlConnector';
 
 export default { 
   Query: {
-    allLinks: () => links,
+    allPizzas: () => Pizza.findAll(),
+    allToppings: () => Topping.findAll(),
+    allMakers: () => Maker.findAll(),
   },
   Mutation: {
     createLink: (_, data) => {
