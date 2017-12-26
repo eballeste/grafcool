@@ -4,7 +4,7 @@
   "description": "GraphQL exploration",
   "scripts": {
     "coolbuild": "babel -d dist/ src/",
-    "coolrun": "node dist/",
+    "coolrun": "NODE_ENV=development node dist/",
     "cool": "npm run coolbuild && npm run coolrun"
   },
   "keywords": ["graphql"],
