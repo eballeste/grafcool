@@ -7,10 +7,22 @@ export default {
     allMakers: () => Maker.findAll(),
   },
   Mutation: {
-    createLink: (_, data) => {
-      const newLink = Object.assign({id: links.length}, data);
-      links.push(newLink);
-      return newLink;
+    createMaker: (_, {name, email, password}, context) => {
+      const newMaker = {
+        name,
+        email,
+        password,
+      };
+      return Maker.create(newMaker).then(maker => {
+        const dbMaker = maker.get({plain: true});
+        const { id, name, email, password } = dbMaker;
+        return Object.assign({
+          id,
+          name,
+          email,
+          password,
+        });
+      });
     }
   }
 };

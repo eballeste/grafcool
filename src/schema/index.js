@@ -32,7 +32,7 @@ const typeDefs = `
   }
 
   type Mutation {
-    createLink(url: String!, description: String!): Link
+    createMaker(name: String!, email: String!, password: String!): Maker,
   }
 ` ;
 
