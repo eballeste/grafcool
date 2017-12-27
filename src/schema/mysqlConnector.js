@@ -52,8 +52,8 @@ MakerModel.hasMany(PizzaModel);
 ToppingModel.belongsToMany(PizzaModel, { through: 'pizzatoppings' });
 
 // sync to create db tables, 
-// will only create if they do not exist
-db.sync();
+// will always recreate db tables
+db.sync({ force: true });
 
 const Maker = db.models.maker;
 const Pizza = db.models.pizza;
