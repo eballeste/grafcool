@@ -33,6 +33,12 @@ const typeDefs = `
 
   type Mutation {
     createMaker(name: String!, email: String!, password: String!): Maker,
+    signinMaker(email: String!, password: String!): SigninPayload!,
+  }
+
+  type SigninPayload {
+    token: String
+    maker: Maker
   }
 ` ;
 

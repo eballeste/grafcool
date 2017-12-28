@@ -7,7 +7,7 @@ export default {
     allMakers: () => Maker.findAll(),
   },
   Mutation: {
-    createMaker: (_, {name, email, password}, context) => {
+    createMaker: (_, {name, email, password}) => {
       const newMaker = {
         name,
         email,
@@ -23,6 +23,16 @@ export default {
           password,
         });
       });
-    }
+    },
+    signinMaker: (_, {email, password}) => {
+      return Maker.findOne({email, password}).then(maker => {
+        const dbMaker = maker.get({plain: true});
+        const { email } = dbMaker;
+        return Object.assign({
+          token: email,
+          maker: dbMaker,
+        });
+      });
+    },
   }
 };
