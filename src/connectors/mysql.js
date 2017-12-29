@@ -12,7 +12,6 @@ export const connectmysql = async () => {
   const db = new Sequelize(name, user, pass, {
     dialect: 'mysql',
     operatorsAliases: false,
-    sync: false,
     host,
     port: 3360,
   });
@@ -54,10 +53,9 @@ export const connectmysql = async () => {
   // associations (creates foreign keys and join tables)
   MakerModel.hasMany(PizzaModel);
   ToppingModel.belongsToMany(PizzaModel, { through: 'pizzatoppings' });
+  
+  db.sync({ force: true });
 
-  const Maker = db.models.maker;
-  const Pizza = db.models.pizza;
-  const Topping = db.models.topping;
-
+  const { maker: Maker, pizza: Pizza, topping: Topping } = db.models;
   return { Maker, Pizza, Topping };
 }
