@@ -1,13 +1,11 @@
-import { Maker, Pizza, Topping } from './mysqlConnector';
-
 export default { 
   Query: {
-    allPizzas: () => Pizza.findAll(),
-    allToppings: () => Topping.findAll(),
-    allMakers: () => Maker.findAll(),
+    allPizzas: (_, __, {mysql: { Pizza }}) => Pizza.findAll(),
+    allToppings: (_, __, {mysql: { Topping }}) => Topping.findAll(),
+    allMakers: (_, __, {mysql: { Maker }}) => Maker.findAll(),
   },
   Mutation: {
-    createMaker: (_, {name, email, password}) => {
+    createMaker: (_, {name, email, password}, {mysql: { Maker }}) => {
       const newMaker = {
         name,
         email,
@@ -24,7 +22,7 @@ export default {
         });
       });
     },
-    signinMaker: (_, {email, password}) => {
+    signinMaker: (_, {email, password}, {mysql: { Maker }}) => {
       return Maker.findOne({email, password}).then(maker => {
         const dbMaker = maker.get({plain: true});
         const { email } = dbMaker;
