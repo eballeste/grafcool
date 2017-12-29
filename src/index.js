@@ -9,14 +9,25 @@ const configData = config(NODE_ENV);
 const { APIPort } = configData;
 
 import schema from 'schema';
+import { connectmysql } from 'connectors/mysql';
 
-const app = express();
+const start = async () => {
+  const mysql = await connectmysql();
 
-app.use('/graphql', bodyParser.json(), graphqlExpress({schema}));
-app.use('/graphiql', graphiqlExpress({
-  endpointURL: '/graphql',
-}));
+  const app = express();
 
-app.listen(APIPort, ()=> {
-  console.log(`Running on port ${APIPort}.`);
-});
+  app.use('/graphql', bodyParser.json(), graphqlExpress({
+    context: {mysql},
+    schema,
+  }));
+  app.use('/graphiql', graphiqlExpress({
+    endpointURL: '/graphql',
+  }));
+
+  app.listen(APIPort, ()=> {
+    console.log(`Running on port ${APIPort}.`);
+  });
+
+};
+
+start();
