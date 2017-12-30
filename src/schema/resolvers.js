@@ -5,31 +5,25 @@ export default {
     allMakers: (_, __, {mysql: { Maker }}) => Maker.findAll(),
   },
   Mutation: {
-    createMaker: (_, {name, email, password}, {mysql: { Maker }}) => {
+    createMaker: async (_, {name, email, password}, {mysql: { Maker }}) => {
       const newMaker = {
         name,
         email,
         password,
       };
-      return Maker.create(newMaker).then(maker => {
-        const dbMaker = maker.get({plain: true});
-        const { id, name, email, password } = dbMaker;
-        return Object.assign({
-          id,
-          name,
-          email,
-          password,
-        });
-      });
+      const response = await Maker.create(newMaker);
+      const maker = response.get({plain: true});
+      const { id } = maker;
+
+      return Object.assign({id}, newMaker);
     },
-    signinMaker: (_, {email, password}, {mysql: { Maker }}) => {
-      return Maker.findOne({email, password}).then(maker => {
-        const dbMaker = maker.get({plain: true});
-        const { email } = dbMaker;
-        return Object.assign({
-          token: email,
-          maker: dbMaker,
-        });
+    signinMaker: async (_, {email, password}, {mysql: { Maker }}) => {
+      const response = await Maker.findOne({email, password});
+      const maker = response.get({plain: true});
+      
+      return Object.assign({
+        token: email,
+        maker,
       });
     },
   }
