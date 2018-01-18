@@ -18,7 +18,7 @@ export default {
       return Object.assign({id}, newMaker);
     },
     signinMaker: async (_, {email, password}, {mysql: { Maker }}) => {
-      const response = await Maker.findOne({email, password});
+      const response = await Maker.findOne({ where:  {email, password} });
       const maker = response.get({plain: true});
       
       return Object.assign({
